@@ -1,6 +1,6 @@
 /* Test code. */
 
-#include <openmalloc/omalloc.h>
+#include <openmalloc/omalloc.hpp>
 #include <iostream>
 
 using namespace std;
