@@ -1,5 +1,3 @@
-<a id="readme-top"></a>
-
 ![logo](assets/logo.png)
 
 <div align="center">
@@ -147,7 +145,7 @@ build/your_program
 ```
 
 ## Roadmap
-- [ ] Implement allocating logic in C
+- [] Implement allocating logic in C
 - [ ] Features
 - [ ] Features
 - [ ] Features
@@ -180,7 +178,7 @@ Distributed under the Apache 2.0 License. See [LICENSE](LICENSE) for more inform
 
 ## Contact
 
-Nicola Grey - [@popxhxh](mailto:popxhxh@outlookh.com) - popxhxh@outlookh.com
+Nicola Grey - [popxhxh@outlookh.com](mailto:popxhxh@outlookh.com)
 
 Project Link: [https://github.com/FishgameStudio/OpenMalloc](https://github.com/FishgameStudio/OpenMalloc)
 
