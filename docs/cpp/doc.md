@@ -151,7 +151,7 @@ int main() {
 ## Compilation
 Compile with C++17 or higher:
 ```bash
-g++ -std=c++17 your_code.cpp -o app
-clang++ -std=c++17 your_code.cpp -o app
-msvc /std:c++17 your_code.cpp
+clang++ test/your_code.cpp -Wall -std=c++26 -stdlib=libc++ -fexperimental-library -I./openmalloc -o build/your_program
+g++ -o build/your_program -Wall -std=c++26 -I./openmalloc/ test/your_code.cpp
+cl /O2 /W4 /std:c++26 /I.\openmalloc/ /Fobuild\ /Febuild\your_program.exe test\your_code.cpp
 ```
