@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    OMalloc::MemoryPool pool(4 * 1024 * 1024); // 4 MB in heap.
+    OMalloc::MemoryPool pool(1024); // 1 KB in heap.
 
     if (!pool.mallocable<string>()) return 1;
 

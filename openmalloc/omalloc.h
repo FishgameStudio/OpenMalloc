@@ -41,10 +41,9 @@ namespace OMalloc {
         MemoryPool(const MemoryPool&) = delete;
         MemoryPool& operator=(const MemoryPool&) = delete;
 
-        [[nodiscard]]
-        template<typename T, class... Args>
         /* Args is for the arguments of other constructors. */
-        T* malloc(Args&&... args) {
+        template<typename T, class... Args>
+        [[nodiscard]] T* malloc(Args&&... args) {
             /* Align the memory. */
             size_t typeSize = sizeof(T);
             size_t alignMark = alignof(T) - 1;
