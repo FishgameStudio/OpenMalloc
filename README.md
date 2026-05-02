@@ -15,6 +15,7 @@
 
 ![build-pass](https://img.shields.io/badge/build-pass-yellow)
 [![C++](https://img.shields.io/badge/C++-26-blue)](https://isocpp.org)
+[![C](https://img.shields.io/badge/C-23-blue)](https://www.c-language.org/)
 ![License](https://img.shields.io/github/license/FishgameStudio/OpenMalloc)
 
 </div>
