@@ -4,6 +4,7 @@
 
 /* The main including header of the OpenMalloc project. */
 
+#pragma once
 #include <memory>        // std::unique_ptr std::make_unique
 #include <stdexcept>     // std::exception std::runtime_error
 #include <string>        // std::string
