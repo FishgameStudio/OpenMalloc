@@ -18,6 +18,17 @@ namespace OMalloc {
         explicit AllocFail(const std::string& msg)
             : std::runtime_error(msg) {}
     };
+    class ResizeFail : public std::runtime_error {
+    public:
+        explicit ResizeFail(const std::string& msg)
+            : std::runtime_error(msg) {}
+    };
+    class InitFail : public std::runtime_error {
+    public:
+        explicit InitFail(const std::string& msg)
+            : std::runtime_error(msg) {}
+    };
+
 
     using POOL_PTR = std::unique_ptr<uint8_t[]>;
     // The unique_ptr only manages the memory instead of the objects on the memory.
@@ -55,7 +66,7 @@ namespace OMalloc {
         {
             /* Initialize the pool. */
             if (s == 0) {
-                throw AllocFail("Pool size cannot be 0");
+                throw InitFail("Pool size cannot be 0");
             }
             pool = std::make_unique<uint8_t[]>(size);
         }
@@ -123,6 +134,32 @@ namespace OMalloc {
             curr_offset = 0;
         }
         
+        void resizeAs(size_t s) {
+            // All the memory will be cleared after resizing!
+            std::lock_guard<std::mutex> lock(mtx);
+            /* Resize the pool. */
+
+            if (s < size) {
+                // Cannot reduce the pool.
+                throw ResizeFail("Cannot reduce the pool as size " + std::to_string(s));
+                return;
+            }
+            if (s == size) return;
+            /*
+             * Destruct all object, empty the pool,
+             * then new larger memory pool.
+             * The pool will move to another memory address,
+             * so the private map 'objs' is invalid after this change.
+             */
+            destruct_all_obj();
+            pool.reset();
+
+            size = s;
+            pool = std::make_unique<uint8_t[]>(size);
+
+            curr_offset = 0;
+            
+        }
 
         void erase_all() {
             std::lock_guard<std::mutex> lock(mtx);
