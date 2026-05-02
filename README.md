@@ -65,48 +65,58 @@
     </li>
 </details>
 
-## Introduction
-🚀A lightweight, high-performance, thread-safe **custom memory pool allocator** implemented purely in modern C++, designed for game engines, runtime frameworks, and high-frequency memory allocation scenarios.
 
-There are countless general-purpose memory allocators and trivial memory pool implementations scattered across GitHub and open-source communities; however, most of them are either overly bloated with redundant features, lack strict thread safety, ignore C++ object lifecycle rules, or sacrifice readability for obscure low-level optimizations. None of them perfectly matched my demands for **simplicity, safety, standard compliance, and industrial availability**, so I built **OpenMalloc** from scratch as a clean, reliable, and production-ready memory pool solution.
+## Introduction
+🚀A lightweight, high-performance, thread-safe **custom memory pool allocator** implemented purely in modern C++ & **portable standard C**, designed for game engines, runtime frameworks, **embedded systems, bare-metal MCU, RTOS, high-frequency memory allocation scenarios, and resource-constrained devices**.
+
+There are countless general-purpose memory allocators and trivial memory pool implementations scattered across GitHub and open-source communities; however, most of them are either overly bloated with redundant features, lack strict thread safety, ignore C++ object lifecycle rules, or sacrifice readability for obscure low-level optimizations. **Few provide clean, dependency-free C implementations suitable for bare-metal embedded and RTOS environments.** None of them perfectly matched my demands for **simplicity, safety, standard compliance, industrial availability, and cross-platform portability between C++ and C**, so I built **OpenMalloc** from scratch as a clean, reliable, and production-ready memory pool solution.
 
 Here’s why OpenMalloc stands out and why you might want to use it in your projects:
 
 - Your development energy should focus on implementing core business logic and architectural design, rather than repeatedly writing fragile memory management code from scratch for every project.
 - You deserve a memory pool that strictly follows **C++ object lifecycle semantics** — no unsafe `memcpy` object relocation, no undefined behavior, no manual memory leak troubleshooting.
+- For **C / embedded / bare-metal projects**, you get a **minimal, libc-independent, no-dependency memory pool** that runs directly on MCU, ARM, and RTOS without OS or dynamic memory support.
 - You shouldn’t compromise between single-thread performance and multi-thread stability; OpenMalloc adopts standard pessimistic locking to deliver out-of-the-box thread safety without unnecessary performance overhead for common scenarios.
-- You can reuse this allocator across game engines, server backends, embedded C++ projects, and runtime component systems, following the DRY principle and avoiding repetitive wheel reinvention.
-- You get a minimalist but complete feature set: **automatic memory alignment, typed object construction/destruction, safe pool reset, controlled capacity expansion, forbidden unsafe shrinkage, exception-driven error handling, and complete isolation of object lifecycle management**.
+- You can reuse this allocator across game engines, server backends, **embedded bare-metal, RTOS, and high-performance system-level projects**, following the DRY principle and avoiding repetitive wheel reinvention.
+- You get a minimalist but complete feature set: **automatic memory alignment, type-safe object construction/destruction (C++) / manual buffer management (C), safe pool reset, controlled capacity expansion, forbidden unsafe shrinkage, exception-driven error handling (C++), return-code stability (C), and complete isolation of memory management**.
 
-Of course, no single memory allocator can cover every extreme scenario such as ultra-low-latency real-time systems or kernel-level memory management. So I will keep iterating OpenMalloc continuously: adding more allocation strategies, supporting block-based pool partitioning, optimizing lock contention, and adapting to more C++ standard versions in the future. You are also welcome to participate in project improvement by forking the repository, submitting pull requests for feature enhancements or bug fixes, or opening issues to suggest new requirements and optimization ideas. Thanks to every developer who stars, forks, and contributes to OpenMalloc — your support keeps this project evolving and mature.
+Of course, no single memory allocator can cover every extreme scenario such as ultra-low-latency real-time systems or kernel-level memory management. So I will keep iterating OpenMalloc continuously: adding more allocation strategies, supporting block-based pool partitioning, optimizing lock contention, adapting to more C++ standard versions, **and optimizing for bare-metal embedded, RTOS, and low-resource hardware platforms**. You are also welcome to participate in project improvement by forking the repository, submitting pull requests for feature enhancements or bug fixes, or opening issues to suggest new requirements and optimization ideas. Thanks to every developer who stars, forks, and contributes to OpenMalloc — your support keeps this project evolving and mature.
+
 
 ## Core Features
-- ✨ **Modern C++ Native Implementation**  
-  Pure C++ standard code, no platform-specific hacks, no C-style forced memory tricks, compatible with C++17 and later standards.
-- 🛡️ **Strict C++ Object Lifecycle Safety**  
+- ✨ **Modern C++ + Standard C Dual Implementation**
+  Pure C++17 standard code + **portable ANSI C99 version**; no vendor-specific extensions, fully compatible with desktop, server, **embedded, bare-metal, and RTOS environments**.
+- 🛡️ **Strict C++ Object Lifecycle Safety**
   Uses `placement new` for in-place object construction and explicit destructor invocation; never uses `memcpy` to copy non-POD objects, completely avoiding double free, wild pointers and undefined behavior.
-- 🔒 **Built-in Thread Safety**  
+- 🧩 **Bare-Metal & Embedded Ready (C Version)**
+  **No libc, no malloc, no OS, no threads** required; fully static memory backed by user-defined buffers, ideal for MCU, ARM, and resource-constrained systems.
+- 🔒 **Built-in Thread Safety (C++ Version)**
   Equipped with `std::mutex` pessimistic lock protection for core allocation, reset and expansion interfaces, safe for multi-thread concurrent allocation.
-- 📏 **Automatic Memory Alignment**  
+- 📏 **Automatic Memory Alignment**
   Automatically calculates the alignment boundary of any type, complies with CPU memory access rules, avoids unaligned access performance loss and hardware exceptions.
-- ♻️ **Lifecycle Independent Management**  
+- ♻️ **Lifecycle Independent Management**
   Maintains a mapping of allocated object addresses and corresponding destructors; automatically destructs all objects on pool reset or destruction to eliminate memory leaks fundamentally.
-- 📐 **Controlled Safe Resizing**  
+- 📐 **Controlled Safe Resizing**
   Provides `resizeAs` interface: only allows capacity expansion, prohibits unsafe shrinkage; clears existing objects and re-initializes the pool to ensure memory security.
-- 🧹 **Dual Reset & Erase Mechanism**  
-  - `reset()`: Destruct all objects, reset offset, retain memory pool for reuse.  
+- 🧹 **Dual Reset & Erase Mechanism**
+  - `reset()`: Destruct all objects, reset offset, retain memory pool for reuse.
   - `erase_all()`: Destruct objects, release entire memory pool, completely recycle resources.
-- ❌ **Disable Copy Semantics**  
+- ❌ **Disable Copy Semantics**
   Forbids copy construction and copy assignment of memory pool instances to avoid accidental memory duplication and resource chaos.
-- 🚨 **Exception-based Error Handling**  
-  Custom exception classes for allocation failure and illegal resizing, providing clear error information for easy debugging.
+- 🚨 **Exception-based (C++) / Return-Code (C) Error Handling**
+  Clear, debug-friendly error model for both high-level applications and low-level embedded systems.
+
 
 ## Suitable Scenarios
 - Game engine runtime object pool management
 - High-frequency temporary object allocation for server backend services
-- Embedded C++ projects that require controlled memory footprint
+- **Embedded C/C++ projects (MCU / ARM / RTOS)**
+- **Bare-metal embedded systems without OS or dynamic memory**
 - Framework underlying memory management layer implementation
 - Any scenario that needs to reduce frequent `new/delete` overhead and avoid memory fragmentation
+- **Low-resource, high-stability industrial and IoT devices**
+- System-level components requiring consistent memory behavior across C and C++
+
 
 ## Getting Started
 Here is an example to use & build.
