@@ -115,7 +115,7 @@ namespace OMalloc {
 
         template<typename T>
         [[nodiscard]]
-        bool mallocable() const {
+        bool mallocable() {
             std::lock_guard<std::mutex> lock(mtx);
             /* Return wether the type can be allocated. */
             size_t typeSize = sizeof(T);
