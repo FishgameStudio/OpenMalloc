@@ -189,8 +189,8 @@ build/your_program
 ```
 
 ## Roadmap
-- [ ] Implement allocating logic in C
-- [ ] Features
+- [x] Implement allocating logic in C
+- [x] Support Embedded
 - [ ] Features
 - [ ] Features
 
