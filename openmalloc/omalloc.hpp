@@ -11,6 +11,7 @@
 #include <utility>       // std::forward
 #include <unordered_map> // std:: unordered_map
 #include <mutex>         // std::mutex
+#include <algorithm>     // std::find_if
 
 namespace OMalloc {
 
@@ -52,7 +53,7 @@ namespace OMalloc {
         void destruct_all_obj() {
             /** 
              * Destruct every objects on the pool. 
-             * No 'delete p;' because the memory is the memory pool's!
+             * No `delete p;` because the memory is the memory pool's!
              */
             for (auto pair : objs) {
                 auto obj = pair.first;
@@ -100,7 +101,7 @@ namespace OMalloc {
             T* p = reinterpret_cast<T*>(raw);
 
             // Construct the object without newing memory.
-            // The object will be created on address 'p'.
+            // The object will be created on address `p`.
             new (p) T(std::forward<Args>(args)...);
 
             curr_offset = alignedOff + typeSize;
@@ -150,7 +151,7 @@ namespace OMalloc {
              * Destruct all object, empty the pool,
              * then new larger memory pool.
              * The pool will move to another memory address,
-             * so the private map 'objs' is invalid after this change.
+             * so the private map `objs` is invalid after this change.
              */
             destruct_all_obj();
             pool.reset();
