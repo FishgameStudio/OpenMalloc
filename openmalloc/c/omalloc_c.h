@@ -33,6 +33,7 @@ void* om_malloc(OM_POOL_PTR __pool, size_t __size, size_t __align);
 int   om_mallocable(OM_POOL_PTR __pool, size_t __size, size_t __align);
 void  om_reset(OM_POOL_PTR __pool);
 int   om_resize(OM_POOL_PTR __pool, size_t __new_size);
+int   om_size(OM_POOL_PTR __pool);
 
 
 #ifdef __cplusplus

@@ -91,3 +91,8 @@ om_resize(OM_POOL_PTR __pool, size_t __new_size) {
     pthread_mutex_unlock(&__pool->mtx);
     return OM_OK;
 }
+int 
+om_size(OM_POOL_PTR __pool) {
+    if (__pool == NULL) return OM_FAIL;
+    return __pool->size;
+}

@@ -46,3 +46,10 @@ OM_PoolReset(OM_POOL_PTR p)
     if (!p) return;
     p->offset = 0;
 }
+
+int 
+OM_Size(OM_POOL_PTR p)
+{
+    if (!p) return;
+    return p->size;
+}

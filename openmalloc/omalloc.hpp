@@ -163,6 +163,10 @@ namespace OMalloc {
             
         }
 
+        size_t size() {
+            return size;
+        }
+        
         void erase_all() {
             std::lock_guard<std::mutex> lock(mtx);
             /* Erase all memory & destroy the pool. */
