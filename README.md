@@ -22,13 +22,47 @@
 <details>
     <summary>Table of Contents</summary>
     <li>
-        <a href="#Introduction">About the project</a>
+        <a href="#introduction">Introduction</a>
     </li>
     <li>
-        <a href="#Introduction">About the project</a>
+        <a href="#core-features">Core Features</a>
     </li>
-
-
+    <li>
+        <a href="#suitable-scenarios">Suitable Scenarios</a>
+    </li>
+    <li>
+        <a href="#getting-started">Getting Started</a>
+        <ul>
+          <a href="#how-to-use">How To Use</a>
+        </ul>
+        <ul>
+          <a href="#how-to-build">How To Build</a>
+          <ul>
+              <a href="#enviroment-required">Enviroment Required</a>
+          </ul>
+          <ul>
+              <a href="#compiling-code">Compiling Code</a>
+          </ul>
+        </ul>
+    </li>
+    <li>
+        <a href="#roadmap">Roadmap</a>
+    </li>
+    <li>
+        <a href="#contributing">Contributing</a>
+    </li>
+    <li>
+        <a href="#license">License</a>
+    </li>
+    <li>
+        <a href="#contact">Contact</a>
+    </li>
+    <li>
+        <a href="#acknowledgments">Acknowledgments</a>
+    </li>
+    <li>
+        <a href="#conclusion">Conclusion</a>
+    </li>
 </details>
 
 ## Introduction
@@ -145,7 +179,7 @@ build/your_program
 ```
 
 ## Roadmap
-- [] Implement allocating logic in C
+- [ ] Implement allocating logic in C
 - [ ] Features
 - [ ] Features
 - [ ] Features
