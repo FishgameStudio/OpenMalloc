@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
 
     if (!pool.mallocable<string>()) return 1;
 
-    string* ptr = pool.malloc<string>("OpenMemory Is Good!");
-    cout << *ptr << endl; // OpenMemory Is Good!
+    string* ptr = pool.malloc<string>("OpenMalloc Is Good!");
+    cout << *ptr << endl; // OpenMalloc Is Good!
 
     unsigned long long* ptr2 = pool.malloc<unsigned long long>(1234567890);
     cout << *ptr2;
