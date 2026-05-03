@@ -96,3 +96,8 @@ om_size(OM_POOL_PTR __pool) {
     if (__pool == NULL) return OM_FAIL;
     return __pool->size;
 }
+int
+om_used(OM_POOL_PTR __pool) {
+    if (__pool == NULL) return OM_FAIL;
+    return __pool->offset;
+}
