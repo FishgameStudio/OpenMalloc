@@ -223,14 +223,14 @@ Distributed under the Apache 2.0 License. See [LICENSE](LICENSE) for more inform
 
 ## Contact
 
-Nicola Grey - [popxhxh@outlookh.com](mailto:popxhxh@outlookh.com)
+Nicola Grey - [popxhxh@outlook.com](mailto:popxhxh@outlook.com)
 
 Project Link: [https://github.com/FishgameStudio/OpenMalloc](https://github.com/FishgameStudio/OpenMalloc)
 
 
 ## Acknowledgments
 
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+* [othneildrew/Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 
 ## Conclusion
