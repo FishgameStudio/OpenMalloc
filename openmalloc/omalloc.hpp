@@ -9,7 +9,7 @@
 #include <stdexcept>     // std::exception std::runtime_error
 #include <string>        // std::string
 #include <utility>       // std::forward
-#include <unordered_map> // std:: unordered_map
+#include <unordered_map> // std::unordered_map
 #include <mutex>         // std::mutex
 #include <algorithm>     // std::find_if
 
@@ -40,6 +40,7 @@ namespace OMalloc {
     private:
         POOL_PTR pool=nullptr; // Point to the start of the memory pool.
         size_t size;
+        size_t used=0;
         std::mutex mtx; // pessimistic locking.
         /*
          * The offset.
@@ -105,6 +106,7 @@ namespace OMalloc {
             new (p) T(std::forward<Args>(args)...);
 
             curr_offset = alignedOff + typeSize;
+            used = curr_offset;
             // Store object.
             objs.try_emplace(
                 p, 
@@ -165,6 +167,9 @@ namespace OMalloc {
 
         size_t size() {
             return size;
+        }
+        size_t used() {
+            return used;
         }
         
         void erase_all() {
