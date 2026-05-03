@@ -25,7 +25,7 @@ typedef struct {
     size_t   offset;
     pthread_mutex_t mtx;
 } OM_POOL;
-typedef OM_POOL* OM_POOL_PTR;
+typedef struct OM_POOL* OM_POOL_PTR;
 
 int   om_poolInit(OM_POOL_PTR __pool, size_t __size);
 void  om_poolDestroy(OM_POOL_PTR __pool);
@@ -34,6 +34,7 @@ int   om_mallocable(OM_POOL_PTR __pool, size_t __size, size_t __align);
 void  om_reset(OM_POOL_PTR __pool);
 int   om_resize(OM_POOL_PTR __pool, size_t __new_size);
 int   om_size(OM_POOL_PTR __pool);
+int   om_used(OM_POOL_PTR __pool);
 
 
 #ifdef __cplusplus
