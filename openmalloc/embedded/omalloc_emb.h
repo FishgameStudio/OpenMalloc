@@ -20,12 +20,13 @@ typedef struct
     size_t offset;
 } OM_POOL;
 
-typedef OM_POOL* OM_POOL_PTR;
+typedef struct OM_POOL* OM_POOL_PTR;
 
 void  OM_PoolInit(OM_POOL_PTR p, u8* buf, size_t buf_size);
 void* OM_PoolMalloc(OM_POOL_PTR p, size_t alloc_size, size_t align);
 int   OM_PoolMallocable(OM_POOL_PTR p, size_t alloc_size, size_t align);
 void  OM_PoolReset(OM_POOL_PTR p);
-int OM_Size(OM_POOL_PTR p);
+int   OM_Size(OM_POOL_PTR p);
+int   OM_Used(OM_POOL_PTR p);
 
 #endif // OMALLOC_EMB_H
