@@ -9,7 +9,7 @@
 #include <stddef.h>
 
 #define OM_OK   0
-#define OM_FAIL 1
+#define OM_FAIL 1 
 
 typedef unsigned char u8;
 
