@@ -68,7 +68,7 @@
 
 
 ## Introduction
-🚀A lightweight, high-performance, thread-safe **custom memory pool allocator** implemented purely in modern C++ & **portable standard C**, designed for game engines, runtime frameworks, **embedded systems, bare-metal MCU, RTOS, high-frequency memory allocation scenarios, and resource-constrained devices**.
+🚀A lightweight, high-performance, thread-safe **custom memory pool allocator** implemented purely in modern C++ & C23 designed for game engines, runtime frameworks, **embedded systems, bare-metal MCU, RTOS, high-frequency memory allocation scenarios, and resource-constrained devices**.
 
 There are countless general-purpose memory allocators and trivial memory pool implementations scattered across GitHub and open-source communities; however, most of them are either overly bloated with redundant features, lack strict thread safety, ignore C++ object lifecycle rules, or sacrifice readability for obscure low-level optimizations. **Few provide clean, dependency-free C implementations suitable for bare-metal embedded and RTOS environments.** None of them perfectly matched my demands for **simplicity, safety, standard compliance, industrial availability, and cross-platform portability between C++ and C**, so I built **OpenMalloc** from scratch as a clean, reliable, and production-ready memory pool solution.
 
@@ -86,7 +86,7 @@ Of course, no single memory allocator can cover every extreme scenario such as u
 
 ## Core Features
 - ✨ **Modern C++ + Standard C Dual Implementation**
-  Pure C++17 standard code + **portable ANSI C99 version**; no vendor-specific extensions, fully compatible with desktop, server, **embedded, bare-metal, and RTOS environments**.
+  Pure C++17+ standard code + C23; no vendor-specific extensions, fully compatible with desktop, server, **embedded, bare-metal, and RTOS environments**.
 - 🛡️ **Strict C++ Object Lifecycle Safety**
   Uses `placement new` for in-place object construction and explicit destructor invocation; never uses `memcpy` to copy non-POD objects, completely avoiding double free, wild pointers and undefined behavior.
 - 🧩 **Bare-Metal & Embedded Ready (C Version)**
