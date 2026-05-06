@@ -60,7 +60,7 @@ Allocates and **constructs an object of type `T`** in the pool.
 - Perfect forwarding for constructor arguments
 - Stores destructor for automatic cleanup
 - Throws `AllocFail` if out of memory
-- **[[nodiscard]]** — return value must be used
+- **\[\[nodiscard\]\]** — return value must be used
 
 ### mallocable()
 ```cpp
@@ -96,9 +96,9 @@ void erase_all();
 Destroys all objects, frees internal memory, and invalidates the pool.
 Automatically called by destructor.
 
-### size()
+### poolSize()
 ```cpp
-size_t size();
+size_t poolSize();
 ```
 Returns total capacity of the memory pool.
 
@@ -112,7 +112,7 @@ Automatically calls `erase_all()`.
 
 ## Usage Example
 ```cpp
-#include "OpenMalloc.hpp"
+#include "omalloc.hpp"
 
 struct MyObject {
     int value;
@@ -129,7 +129,7 @@ int main() {
     }
 
     pool.reset();
-    pool.resizeAs(2048);
+    
 }
 ```
 

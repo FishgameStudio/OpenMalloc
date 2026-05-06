@@ -51,17 +51,21 @@ namespace OMalloc {
         /* Each object pointers on the memory pool & the destructors of objects. */
         std::unordered_map<void*, void(*)(void*)> objs;
         
-        void destruct_all_obj() {
+        void destruct_all_obj_no_lock() {
             /** 
              * Destruct every objects on the pool. 
              * No `delete p;` because the memory is the memory pool's!
              */
-            for (auto pair : objs) {
+            for (auto& pair : objs) {
                 auto obj = pair.first;
                 auto destructor = pair.second;
                 destructor(obj);
             }
             objs.clear();
+        }
+        void destruct_all_obj() {
+            std::lock_guard<std::mutex> lock(mtx);
+            destruct_all_obj_no_lock();
         }
     public:
         explicit MemoryPool(size_t s) 
@@ -82,19 +86,22 @@ namespace OMalloc {
         template<typename T, class... Args>
         [[nodiscard]] T* malloc(Args&&... args) {
             std::lock_guard<std::mutex> lock(mtx);
+
+            if (!pool) {
+                throw AllocFail("Try to allocate on a destoryed pool");
+            }
             /* Align the memory. */
             size_t typeSize = sizeof(T);
-            size_t alignMark = alignof(T) - 1;
-            size_t alignedOff = (curr_offset + alignMark) & ~alignMark;
+            const size_t align = alignof(T);
+            size_t alignedOff = ((curr_offset + align - 1) / align) * align;
 
             /* Overflow */
-            if (alignedOff + typeSize > size) {
+            if (alignedOff > size - typeSize) {
                 throw AllocFail(
                     "Allocate failed: offset " + std::to_string(alignedOff)
                     + " with type size " + std::to_string(typeSize)
                     + " reached limit pool size " + std::to_string(size)
                 );
-                return nullptr;
             }
 
             /* Get the address and hard-cast to T pointer. */
@@ -123,9 +130,9 @@ namespace OMalloc {
             std::lock_guard<std::mutex> lock(mtx);
             /* Return wether the type can be allocated. */
             size_t typeSize = sizeof(T);
-            size_t alignMark = alignof(T) - 1;
-            size_t alignedOff = (curr_offset + alignMark) & ~alignMark;
-            return (alignedOff + typeSize) <= size;
+            const size_t align = alignof(T);
+            size_t alignedOff = ((curr_offset + align - 1) / align) * align;
+            return !(alignedOff > size - typeSize);
         }
 
         void reset() {
@@ -136,10 +143,11 @@ namespace OMalloc {
              */ 
             destruct_all_obj();
             curr_offset = 0;
+            used = 0;
         }
         
         void resizeAs(size_t s) {
-            // All the memory will be cleared after resizing!
+            // DANGER FUNCTION: All the memory will be cleared after resizing!
             std::lock_guard<std::mutex> lock(mtx);
             /* Resize the pool. */
 
@@ -162,13 +170,13 @@ namespace OMalloc {
             pool = std::make_unique<uint8_t[]>(size);
 
             curr_offset = 0;
-            
+            used = 0;
         }
 
-        size_t size() {
+        size_t poolSize() const {
             return size;
         }
-        size_t used() {
+        size_t used() const {
             return used;
         }
         
@@ -183,7 +191,12 @@ namespace OMalloc {
         }
 
         ~MemoryPool() {
-            erase_all();
+            destruct_all_obj_no_lock();
+            pool.reset();
+            pool = nullptr;
+            size = 0;
+            curr_offset = 0;
+            used = 0;
         }
         
     };
